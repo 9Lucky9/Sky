@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Sky.Models
 {
-    class Role
+    public class Role
     {
-        private readonly int ID;
-        private readonly string Name;
+        public int ID { get; set; }
+        public string Name { get; set; }
 
         public Role(int ID, string Name)
         {

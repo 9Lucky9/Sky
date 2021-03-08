@@ -25,22 +25,43 @@
         <Grid Grid.Row="1">
             
         </Grid>
-        
-        <StackPanel Grid.Row="1">
+
+        <!--Добавление участника-->
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
             <TextBlock Text="Введите логин участника" FontSize="24"/>
-            <StackPanel>
-                <TextBox x:Name="UserName" FontSize="28"/>
-                <Button Content="Добавить" FontSize="24" Click="AddUserToChatListClick"/>
-            </StackPanel>
-        </StackPanel>
+            <TextBox Grid.Row="1" x:Name="UserName" FontSize="28"/>
 
+            <TextBlock Grid.Column="1" Text="Выберите роль участника" FontSize="24"/>
+            <ComboBox x:Name="Role" Grid.Column="1" Grid.Row="1">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Path=Name}" FontSize="24"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button Grid.Row="2" Grid.ColumnSpan="2" Content="Добавить" FontSize="24" Click="AddUserToChatListClick"/>
+        </Grid>
 
+        <!--Список участников-->
         <StackPanel Grid.Row="2">
             <TextBlock Text="Будут добавлены следующие участники:" FontSize="24"/>
             <ListBox x:Name="UserList" MinHeight="200" FontSize="24">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Path=Login}"/>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Path=user_id}"/>
+                            <Button Content="Удалить" Click="DeleteUserFromChatListClick" Tag="{Binding Path=ID}"/>
+                        </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

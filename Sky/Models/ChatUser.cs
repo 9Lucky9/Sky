@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Sky.Models
 {
-    class ChatUser
+    public class ChatUser
     {
-        public int? ID;
-        public int user_id;
-        public int role_id;
-        public int chat_id;
+        public int? ID { get; set; }
+        public int user_id { get; set; }
+        public int role_id { get; set; }
+        public int chat_id { get; set; }
 
         public ChatUser() { }
         public ChatUser(int? ID, int user_id, int role_id, int chat_id)

@@ -1,6 +1,8 @@
 ﻿using MySql.Data.MySqlClient;
+using Sky.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -42,7 +44,7 @@ namespace Sky
             myCommand.ExecuteReader();
             Connection.Close();
         }
-        public User ReturnUserByLogin(string login)
+        public int GetUserIDByLogin(string login)
         {
             Connection.Open();
             MySqlCommand myCommand = new MySqlCommand($"SELECT * FROM `User` WHERE Login = '{ login }'", Connection);
@@ -50,10 +52,10 @@ namespace Sky
             if (dr.HasRows == true)
             {
                 dr.Read();
-                return new User((int)dr[0], (string)dr[1], (string)dr[2], (string)dr[3]);
+                return (int)dr[0];
             }
             Connection.Close();
-            return null;
+            return 0;
         }
 
         //Chat
@@ -83,12 +85,19 @@ namespace Sky
             Connection.Close();
         }
 
-        public void GetAllRoles()
+        public List<Role> GetAllRoles()
         {
+            List<Role> roles = new List<Role>();
             Connection.Open();
             MySqlCommand myCommand = new MySqlCommand($"SELECT * FROM `Role`", Connection);
-            myCommand.ExecuteReader();
+            MySqlDataReader dr = myCommand.ExecuteReader();
+            while (dr.Read())
+            {
+                Role role = new Role((int)dr[0], (string)dr[1]);
+                roles.Add(role);
+            }
             Connection.Close();
+            return roles;
         }
     }
 }
