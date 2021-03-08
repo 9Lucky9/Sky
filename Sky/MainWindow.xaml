@@ -1,0 +1,67 @@
+﻿<Window x:Class="Sky.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Sky"
+        mc:Ignorable="d"
+        Title="Sky-Авторизация" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.2*"/>
+            <RowDefinition Height="0.6*"/>
+            <RowDefinition Height="0.2*"/>
+        </Grid.RowDefinitions>
+        <!--Заголовок-->
+        <Viewbox>
+            <TextBlock Text="Sky"/>
+        </Viewbox>
+        <!--Форма заполнения-->
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <!--Заголовок формы-->
+            <Viewbox Grid.Column="1">
+                <TextBlock x:Name="Title" Text="Авторизация" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Viewbox>
+            <!--Заголовок Email-->
+            <Viewbox  Grid.Row="1" HorizontalAlignment="Right">
+                <TextBlock Text="Email:"/>
+            </Viewbox>
+            <!--Email-->
+            <Viewbox Grid.Column="1" Grid.Row="1" Margin="0,5">
+                <TextBox x:Name="Email" Text="" MinWidth="{Binding ElementName=Title, Path=ActualWidth}"/>
+            </Viewbox>
+            <!--Заголовок пароля-->
+            <Viewbox  Grid.Row="2" HorizontalAlignment="Right">
+                <TextBlock Text="Пароль:"/>
+            </Viewbox>
+            <!--Password-->
+            <Viewbox Grid.Column="1" Grid.Row="2" Margin="0,5">
+                <PasswordBox x:Name="Password" MinWidth="{Binding ElementName=Title, Path=ActualWidth}"/>
+            </Viewbox>
+            <!--Кнопка и чекбокс авторизации-->
+            <Viewbox Grid.Column="1" Grid.Row="3">
+                <DockPanel>
+                    <CheckBox VerticalAlignment="Center"/>
+                    <TextBlock Text="Запомнить меня" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Button Content="Войти" VerticalAlignment="Center" Click="SignInClick"/>
+                </DockPanel>
+            </Viewbox>
+            <!--Зарегестироваться-->
+            <Viewbox Grid.Column="1" Grid.Row="4">
+                <TextBlock Text="Зарегестироваться" PreviewMouseDown="RegistrationClick" Foreground="#FF0000EE"/>
+            </Viewbox>
+        </Grid>
+    </Grid>
+</Window>

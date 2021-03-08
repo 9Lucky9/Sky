@@ -1,0 +1,48 @@
+﻿<Page x:Class="Sky.NewChat"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Sky"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="NewChat">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.15*"/>
+            <RowDefinition Height="0.25*"/>
+            <RowDefinition Height="0.45*"/>
+            <RowDefinition Height="0.1*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="Введите название чата" FontSize="24"/>
+            <TextBox x:Name="ChatName" FontSize="24"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1">
+            <TextBlock Text="Введите логин участника" FontSize="24"/>
+            <TextBox x:Name="UserName" FontSize="28"/>
+            <Button Content="Добавить" FontSize="24" Click="AddUserToChatListClick"/>
+        </StackPanel>
+
+
+        <StackPanel Grid.Row="2">
+            <TextBlock Text="Будут добавлены следующие участники:" FontSize="24"/>
+            <ListBox x:Name="UserList" MinHeight="200" FontSize="24">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Path=Login}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button Content="Отмена" FontSize="24" Click="CancelNewChatClick" />
+            <Button Content="Создать" FontSize="24" Click="CreateChatClick"/>
+        </StackPanel>
+
+    </Grid>
+</Page>
