@@ -16,15 +16,22 @@
             <RowDefinition Height="0.1*"/>
         </Grid.RowDefinitions>
 
+        <!--Название чата-->
         <StackPanel Grid.Row="0">
             <TextBlock Text="Введите название чата" FontSize="24"/>
             <TextBox x:Name="ChatName" FontSize="24"/>
         </StackPanel>
 
+        <Grid Grid.Row="1">
+            
+        </Grid>
+        
         <StackPanel Grid.Row="1">
             <TextBlock Text="Введите логин участника" FontSize="24"/>
-            <TextBox x:Name="UserName" FontSize="28"/>
-            <Button Content="Добавить" FontSize="24" Click="AddUserToChatListClick"/>
+            <StackPanel>
+                <TextBox x:Name="UserName" FontSize="28"/>
+                <Button Content="Добавить" FontSize="24" Click="AddUserToChatListClick"/>
+            </StackPanel>
         </StackPanel>
 
 

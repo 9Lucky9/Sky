@@ -82,5 +82,13 @@ namespace Sky
             myCommand.ExecuteReader();
             Connection.Close();
         }
+
+        public void GetAllRoles()
+        {
+            Connection.Open();
+            MySqlCommand myCommand = new MySqlCommand($"SELECT * FROM `Role`", Connection);
+            myCommand.ExecuteReader();
+            Connection.Close();
+        }
     }
 }
