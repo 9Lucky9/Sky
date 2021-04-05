@@ -21,17 +21,19 @@ namespace Sky
 
         private void SignInClick(object sender, RoutedEventArgs e)
         {
+            if (Email.Text == "" || Password.Password == "")
+            {
+                MessageBox.Show("Заполните поля");
+                return;
+            }
+            User.CurrentUser = User.AuthUser(Email.Text, Password.Password);
+            if(User.CurrentUser.ID == 0)
+            {
+                MessageBox.Show("Не верный логин или пароль!");
+                return;
+            }
             new Chats().Show();
             Close();
-            //if (Email.Text == "" || Password.Password == "")
-            //{
-            //    MessageBox.Show("Заполните поля");
-            //    return;
-            //}
-            //DB dB = new DB();
-            //dB.Connect();
-            //dB.AuthUser(Email.Text, Password.Password);
-            //dB.Close();
         }
         private void SHA512PasswordHash(string password)
         {

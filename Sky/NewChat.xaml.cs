@@ -17,18 +17,17 @@ using System.Windows.Shapes;
 
 namespace Sky
 {
-    public partial class NewChat : Page
+    public partial class NewChat : UserControl
     {
-        private DB dB = new DB();
-        public ObservableCollection<ChatUser> ChatUsers = new ObservableCollection<ChatUser>();
-        public List<Role> Roles;
+        private ObservableCollection<ChatUser> ChatUsers = new ObservableCollection<ChatUser>();
+        private ObservableCollection<User> Users = new ObservableCollection<User>();
+        private List<int> roleIDs = new List<int>();
         private int chatID;
         public NewChat()
         {
             InitializeComponent();
-            UserList.ItemsSource = ChatUsers;
-            Roles = dB.GetAllRoles();
-            Role.ItemsSource = Roles;
+            UserList.ItemsSource = Users;
+            Roles.ItemsSource = Role.Roles;
         }
 
         private void CreateChatClick(object sender, RoutedEventArgs e)
@@ -43,13 +42,12 @@ namespace Sky
                 MessageBox.Show("Нельзя создать чат без пользователей!");
                 return;
             }
-            dB.InsertNewChat(ChatName.Text);
-            chatID = dB.GetLastChatID() + 1;
-            foreach (ChatUser chatUser in ChatUsers)
+            Chat chat = new Chat(ChatName.Text);
+            foreach(ChatUser chatUser in ChatUsers)
             {
-                dB.InsertNewChat_user(chatUser.user_id, chatUser.role_id, chatUser.chat_id);
+                chatUser.chat_id = chat.ID;
+                chatUser.Insert();
             }
-            
         }
 
         private void CancelNewChatClick(object sender, RoutedEventArgs e)
@@ -59,25 +57,40 @@ namespace Sky
 
         private void AddUserToChatListClick(object sender, RoutedEventArgs e)
         {
-            if (UserName.Text == "")
+            if (UserLogin.Text == "")
             {
                 MessageBox.Show("Заполните логин участника!");
                 return;
             }
-            int userID = dB.GetUserIDByLogin(UserName.Text);
-            if (userID == 0)
+            if(UserLogin.Text == User.CurrentUser.Login)
+            {
+                MessageBox.Show("Вы не можете добавить себя в ваш новый чат!");
+                return;
+            }
+            var user = User.GetUserByLogin(UserLogin.Text);
+            if (user.ID == 0)
             {
                 MessageBox.Show("Такого пользователя не существует!");
                 return;
             }
-            ChatUser chatUser = new ChatUser(null, userID, (Role.SelectedItem as Role).ID, chatID);
+            foreach(ChatUser chatUser1 in ChatUsers)
+            {
+                if(chatUser1.user_id == user.ID)
+                {
+                    MessageBox.Show("Вы не можете добавить одинаковых пользователей в чат!");
+                    return;
+                }
+            }
+            Users.Add(user);
+            ChatUser chatUser = new ChatUser(user.ID, (Roles.SelectedItem as Role).ID, 0);
             ChatUsers.Add(chatUser);
-            Console.WriteLine("Успешное добавление участника в список участников!");
         }
         private void DeleteUserFromChatListClick(object sender, RoutedEventArgs e)
         {
-            var item = ChatUsers.First(user => user.user_id ==  Convert.ToInt32((sender as Button).Tag));
-            ChatUsers.Remove(item);
+            var user1 = Users.First(user => user.ID ==  Convert.ToInt32((sender as Button).Tag));
+            var chatUser = ChatUsers.First(chatUser1 => chatUser1.user_id == Convert.ToInt32((sender as Button).Tag));
+            Users.Remove(user1);
+            ChatUsers.Remove(chatUser);
         }
     }
 }

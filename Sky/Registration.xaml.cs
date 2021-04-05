@@ -36,12 +36,11 @@ namespace Sky
             }
             if (!Email.Text.Contains("@"))
             {
-                MessageBox.Show("Не верный Email");
+                MessageBox.Show("Не верный E-mail");
                 return;
             }
-            DB dB = new DB();
-            dB.InsertUser(Login.Text, Email.Text, Password.Password);
-
+            User user = new User(Login.Text, Email.Text, Password.Password);
+            user.Insert();
         }
     }
 }

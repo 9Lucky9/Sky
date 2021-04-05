@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sky.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,16 +20,12 @@ namespace Sky
         public Chats()
         {
             InitializeComponent();
-            getCurrentChats();
+            ChatList.ItemsSource = ChatUser.ChatUsers;
         }
 
         private void NewChat(object sender, RoutedEventArgs e)
         {
             ChatFrame.Navigate(new NewChat());
-        }
-        private void getCurrentChats()
-        {
-
         }
     }
 }
