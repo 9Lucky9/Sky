@@ -19,7 +19,7 @@ namespace Sky
             this.Name = Name;
             Insert();
         }
-        public Chat(int ID, string Name) 
+        public Chat(int ID, string Name)
         {
             this.ID = ID;
             this.Name = Name;
@@ -39,7 +39,7 @@ namespace Sky
                 command.ExecuteNonQuery();
             }
         }
-        public int GetLastChatID()
+        private int GetLastChatID()
         {
             int lastChatId = 0;
             using (SqlConnection Connection = new SqlConnection(Properties.Settings.Default.SkyDatabaseConnectionString))

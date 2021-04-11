@@ -10,21 +10,21 @@ namespace Sky
         public string Login { get; set; }
 
         private string email;
-        public string Email 
-        { 
+        public string Email
+        {
             get => email;
 
-            set 
+            set
             {
-                email = value; 
-            } 
+                email = value;
+            }
         }
 
         private string password;
-        public string Password 
-        { 
-            get => password; 
-            set => password = value; 
+        public string Password
+        {
+            get => password;
+            set => password = value;
         }
         public User() { }
         public User(int ID, string Login, string Email, string Password)
@@ -57,7 +57,7 @@ namespace Sky
                 command.ExecuteNonQuery();
             }
         }
-        public void Delete()
+        private void Delete()
         {
             using (SqlConnection Connection = new SqlConnection(Properties.Settings.Default.SkyDatabaseConnectionString))
             {
@@ -71,19 +71,19 @@ namespace Sky
         }
         public void Update()
         {
-                using (SqlConnection Connection = new SqlConnection(Properties.Settings.Default.SkyDatabaseConnectionString))
-                {
-                    Connection.Open();
-                    SqlCommand command = new SqlCommand();
-                    command.Connection = Connection;
-                    command.CommandText = "UPDATE [User] SET [Email] = @Email, " +
-                    "[Password] = @Password, " +
-                    "WHERE [User].[Id] = @Id";
-                    command.Parameters.Add(new SqlParameter("@Email", Email));
-                    command.Parameters.Add(new SqlParameter("@Password", Password));
-                    command.Parameters.Add(new SqlParameter("@Id", ID));
-                    command.ExecuteNonQuery();
-                }
+            using (SqlConnection Connection = new SqlConnection(Properties.Settings.Default.SkyDatabaseConnectionString))
+            {
+                Connection.Open();
+                SqlCommand command = new SqlCommand();
+                command.Connection = Connection;
+                command.CommandText = "UPDATE [User] SET [Email] = @Email, " +
+                "[Password] = @Password, " +
+                "WHERE [User].[Id] = @Id";
+                command.Parameters.Add(new SqlParameter("@Email", Email));
+                command.Parameters.Add(new SqlParameter("@Password", Password));
+                command.Parameters.Add(new SqlParameter("@Id", ID));
+                command.ExecuteNonQuery();
+            }
         }
         public static User GetUserByLogin(string Login)
         {

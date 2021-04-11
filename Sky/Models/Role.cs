@@ -33,7 +33,7 @@ namespace Sky.Models
                 };
                 command.CommandText = "SELECT * FROM [Role]";
                 SqlDataReader reader = command.ExecuteReader();
-                while(reader.Read())
+                while (reader.Read())
                 {
                     Role role = new Role(reader.GetInt32(0),
                                          reader.GetString(1));

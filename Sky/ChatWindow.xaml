@@ -1,0 +1,55 @@
+﻿<Page x:Class="Sky.ChatWindow"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Sky"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ChatWindow">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="0.9*"/>
+            <RowDefinition Height="0.1*"/>
+        </Grid.RowDefinitions>
+        
+        <!--Информация о чате-->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Viewbox>
+                <TextBlock Text="Название чата" x:Name="ChatName"/>
+            </Viewbox>
+            <Button Grid.Column="1" Content="Настройки" HorizontalAlignment="Right"/>
+        </Grid>
+
+        <!--Сообщения-->
+        <ListBox Grid.Row="1" x:Name="Messages">
+            
+        </ListBox>
+        
+        <!--Ввод сообщений-->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.9*"/>
+                <ColumnDefinition Width="0.1*"/>
+                <ColumnDefinition Width="0.1*"/>
+                <ColumnDefinition Width="0.1*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBox x:Name="messageBox"/>
+            <Button x:Name="Attach" FontSize="32" Grid.Column="1" Click="AttachFile_Click">
+                <Image Source="/Resources/ChatWindow/TransparentClip.png"/>
+            </Button>
+
+            <Button Grid.Column="2" Click="AuidoMessage_Click">
+                <Image Source="/Resources/ChatWindow/TransparentMicrophone.png"/>
+            </Button>
+            <Button Content="→" FontSize="32" Grid.Column="3" Click="SendMessage_Click"/>
+        </Grid>
+    </Grid>
+</Page>

@@ -19,16 +19,13 @@
             <ListBox x:Name="ChatList">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel>
-                            <TextBlock Text="{Binding}"/>
-                            <TextBlock Text="{Binding}"/>
-                        </StackPanel>
+                        <TextBlock Text="{Binding Path=chatName}" PreviewMouseLeftButtonUp="Chat_LeftClick"/>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
         </StackPanel>
 
-        <Frame Grid.Column="1" x:Name="ChatFrame">
+        <Frame NavigationUIVisibility="Hidden" Grid.Column="1" x:Name="ChatFrame">
 
         </Frame>
     </Grid>

@@ -21,8 +21,6 @@ namespace Sky
     {
         private ObservableCollection<ChatUser> ChatUsers = new ObservableCollection<ChatUser>();
         private ObservableCollection<User> Users = new ObservableCollection<User>();
-        private List<int> roleIDs = new List<int>();
-        private int chatID;
         public NewChat()
         {
             InitializeComponent();
@@ -32,27 +30,31 @@ namespace Sky
 
         private void CreateChatClick(object sender, RoutedEventArgs e)
         {
-            if(ChatName.Text == "")
+            if (ChatName.Text == "")
             {
                 MessageBox.Show("Нельзя создать чат с пустым названием!");
                 return;
             }
-            if(ChatUsers.Count == 0)
+            if (ChatUsers.Count == 0)
             {
                 MessageBox.Show("Нельзя создать чат без пользователей!");
                 return;
             }
             Chat chat = new Chat(ChatName.Text);
-            foreach(ChatUser chatUser in ChatUsers)
+            ChatUser currentChatUser = new ChatUser(User.CurrentUser.ID, 1, chat.ID);
+            ChatUsers.Add(currentChatUser);
+            foreach (ChatUser chatUser in ChatUsers)
             {
                 chatUser.chat_id = chat.ID;
                 chatUser.Insert();
             }
+            MessageBox.Show("Новый чат успешно создан!");
+            Properties.Settings.Default.Save();
         }
 
         private void CancelNewChatClick(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
         private void AddUserToChatListClick(object sender, RoutedEventArgs e)
@@ -62,7 +64,7 @@ namespace Sky
                 MessageBox.Show("Заполните логин участника!");
                 return;
             }
-            if(UserLogin.Text == User.CurrentUser.Login)
+            if (UserLogin.Text == User.CurrentUser.Login)
             {
                 MessageBox.Show("Вы не можете добавить себя в ваш новый чат!");
                 return;
@@ -73,9 +75,9 @@ namespace Sky
                 MessageBox.Show("Такого пользователя не существует!");
                 return;
             }
-            foreach(ChatUser chatUser1 in ChatUsers)
+            foreach (ChatUser chatUser1 in ChatUsers)
             {
-                if(chatUser1.user_id == user.ID)
+                if (chatUser1.user_id == user.ID)
                 {
                     MessageBox.Show("Вы не можете добавить одинаковых пользователей в чат!");
                     return;
@@ -87,7 +89,7 @@ namespace Sky
         }
         private void DeleteUserFromChatListClick(object sender, RoutedEventArgs e)
         {
-            var user1 = Users.First(user => user.ID ==  Convert.ToInt32((sender as Button).Tag));
+            var user1 = Users.First(user => user.ID == Convert.ToInt32((sender as Button).Tag));
             var chatUser = ChatUsers.First(chatUser1 => chatUser1.user_id == Convert.ToInt32((sender as Button).Tag));
             Users.Remove(user1);
             ChatUsers.Remove(chatUser);

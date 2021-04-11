@@ -40,7 +40,7 @@
             </Viewbox>
             <!--Email-->
             <Viewbox Grid.Column="1" Grid.Row="1" Margin="0,5">
-                <TextBox x:Name="Email" Text="" MinWidth="{Binding ElementName=Title, Path=ActualWidth}"/>
+                <TextBox x:Name="Email" Text="pro1912@gmail.com" MinWidth="{Binding ElementName=Title, Path=ActualWidth}"/>
             </Viewbox>
             <!--Заголовок пароля-->
             <Viewbox  Grid.Row="2" HorizontalAlignment="Right">

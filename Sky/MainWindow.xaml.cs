@@ -10,7 +10,6 @@ namespace Sky
         public MainWindow()
         {
             InitializeComponent();
-
         }
 
         private void RegistrationClick(object sender, MouseButtonEventArgs e)
@@ -27,7 +26,7 @@ namespace Sky
                 return;
             }
             User.CurrentUser = User.AuthUser(Email.Text, Password.Password);
-            if(User.CurrentUser.ID == 0)
+            if (User.CurrentUser.ID == 0)
             {
                 MessageBox.Show("Не верный логин или пароль!");
                 return;

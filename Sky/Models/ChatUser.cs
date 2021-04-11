@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,7 @@ namespace Sky.Models
         public int user_id { get; set; }
         public int role_id { get; set; }
         public int chat_id { get; set; }
+        public string chatName { get; set; }
 
         public ChatUser() { }
         public ChatUser(int user_id, int role_id, int chat_id)
@@ -28,8 +30,16 @@ namespace Sky.Models
             this.role_id = role_id;
             this.chat_id = chat_id;
         }
-        private static List<ChatUser> chatUsers;
-        public static List<ChatUser> ChatUsers { get => chatUsers; set => chatUsers = value; }
+        public ChatUser(int ID, int user_id, int role_id, int chat_id, string chatName)
+        {
+            this.ID = ID;
+            this.user_id = user_id;
+            this.role_id = role_id;
+            this.chat_id = chat_id;
+            this.chatName = chatName;
+        }
+        private static ObservableCollection<ChatUser> chatUsers = GetChatsByUser(User.CurrentUser.ID);
+        public static ObservableCollection<ChatUser> ChatUsers { get => chatUsers; set => chatUsers = value; }
         public void Insert()
         {
             using (SqlConnection Connection = new SqlConnection(Properties.Settings.Default.SkyDatabaseConnectionString))
@@ -46,9 +56,9 @@ namespace Sky.Models
                 command.ExecuteNonQuery();
             }
         }
-        private static List<ChatUser> GetChatsByUser(int User_id)
+        private static ObservableCollection<ChatUser> GetChatsByUser(int User_id)
         {
-            List<ChatUser> chatUsers = new List<ChatUser>();
+            ObservableCollection<ChatUser> chatUsers = new ObservableCollection<ChatUser>();
             using (SqlConnection Connection = new SqlConnection(Properties.Settings.Default.SkyDatabaseConnectionString))
             {
                 Connection.Open();
@@ -56,7 +66,7 @@ namespace Sky.Models
                 {
                     Connection = Connection
                 };
-                command.CommandText = "SELECT * FROM [ChatUser] WHERE User_id = @User_id";
+                command.CommandText = "SELECT [ChatUser].[Id], [ChatUser].[User_id], [ChatUser].[Role_id], [ChatUser].[Chat_id], [Chat].[Name] FROM[ChatUser] INNER JOIN[Chat] ON[Chat].[Id] = [ChatUser].[Chat_id] WHERE[ChatUser].[User_id] = @User_id";
                 command.Parameters.Add(new SqlParameter("@User_id", User_id));
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
@@ -64,7 +74,8 @@ namespace Sky.Models
                     ChatUser chatUser = new ChatUser(reader.GetInt32(0),
                                          reader.GetInt32(1),
                                          reader.GetInt32(2),
-                                         reader.GetInt32(3));
+                                         reader.GetInt32(3),
+                                         reader.GetString(4));
                     chatUsers.Add(chatUser);
                 }
             }
