@@ -17,19 +17,18 @@ namespace Sky.Models
         public string chatName { get; set; }
 
         public ChatUser() { }
+        /// <summary>
+        /// Constuctor to insert ChatUser to database
+        /// </summary>
         public ChatUser(int user_id, int role_id, int chat_id)
         {
             this.user_id = user_id;
             this.role_id = role_id;
             this.chat_id = chat_id;
         }
-        public ChatUser(int ID, int user_id, int role_id, int chat_id)
-        {
-            this.ID = ID;
-            this.user_id = user_id;
-            this.role_id = role_id;
-            this.chat_id = chat_id;
-        }
+        /// <summary>
+        /// Constuctor for load ChatUser from database
+        /// </summary>
         public ChatUser(int ID, int user_id, int role_id, int chat_id, string chatName)
         {
             this.ID = ID;

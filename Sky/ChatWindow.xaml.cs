@@ -5,6 +5,8 @@ using Sky.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,28 +28,33 @@ namespace Sky
         private ObservableCollection<Message> messages;
         private SignalRService rService;
         private Sound sound;
-        private bool recording = false;
+        private bool recordingSound = false;
+
         public ChatWindow(ChatUser chatUser)
         {
             InitializeComponent();
             chatID = chatUser.chat_id;
             
             messages = Message.GetMessagesFromDB(chatID);
-            loadRService();
+            //loadRService();
             LoadMessages();
         }
+
         private async void SendMessage_Click(object sender, RoutedEventArgs e)
         {
+            if (messageBox.Text == "")
+                return;
             byte[] array = Encoding.UTF8.GetBytes(messageBox.Text);
             Message message = new Message(User.CurrentUser.ID, chatID, (int)ContentType.ContentTypes.Text, array);
-            await rService.SendMessage(message);
+            Messages.Items.Add(CreateTextMessageUI(message));
+            //await rService.SendMessage(message);
         }
-        private void loadRService()
+        private async void loadRService()
         {
             rService = new SignalRService();
-            rService.StartConnection();
-            rService.addToGroup(chatID.ToString());
             rService.MessageReceived += RService_MessageReceived;
+            await rService.StartConnection();
+            await rService.addToGroup(chatID.ToString());
         }
         private void RService_MessageReceived(Message obj)
         {
@@ -62,47 +69,62 @@ namespace Sky
                     case (int)ContentType.ContentTypes.Text:
                         Messages.Items.Add(CreateTextMessageUI(message));
                         break;
-
                     case (int)ContentType.ContentTypes.VoiceMessage:
                         Messages.Items.Add(CreateAudioMessageUI(message));
                         break;
                     case (int)ContentType.ContentTypes.Picture:
-
+                        Messages.Items.Add(CreatePhotoMessageUI(message));
                         break;
-
+                    case (int)ContentType.ContentTypes.Video:
+                        
+                        break;
                 }
             }
         }
 
         private void AttachFile_Click(object sender, RoutedEventArgs e)
         {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == false)
+                return;
+            string filename = openFileDialog.FileName;
+            FileInfo fileInfo = new FileInfo(filename);
+            if (fileInfo.Extension == ".jpg" || fileInfo.Extension == ".jpeg" || fileInfo.Extension == ".png")
+            {
+                Console.WriteLine("Сработал!");
+                Message message = new Message(User.CurrentUser.ID, chatID, (int)ContentType.ContentTypes.Picture, File.ReadAllBytes(filename));
+                Messages.Items.Add(CreatePhotoMessageUI(message));
+            }
+            if(fileInfo.Extension == ".mp4")
+            {
 
+            }
         }
 
         private async void AuidoMessage_Click(object sender, RoutedEventArgs e)
         {
-            if (recording == false)
+            if (recordingSound == false)
             {
                 sound = new Sound();
                 sound.StartRecord();
-                recording = true;
+                recordingSound = true;
             }
             else
             {
                 sound.StopRecord();
                 Message message = new Message(User.CurrentUser.ID, chatID, (int)ContentType.ContentTypes.VoiceMessage, sound.audioBytes.ToArray());
+                messages.Add(message);
                 //await rService.SendMessage(message);
-                recording = false;
+                recordingSound = false;
             }
-
-
         }
         private StackPanel CreateTextMessageUI(Message message)
         {
             StackPanel stackPanel = new StackPanel();
             TextBlock user = new TextBlock()
             {
-                Text = message.User_id.ToString(),
+                Text = message.User_login,
+                FontWeight = FontWeights.Bold,
                 Tag = message.User_id
             };
             TextBlock text = new TextBlock()
@@ -110,19 +132,23 @@ namespace Sky
                 Tag = message.ID,
                 Text = Encoding.UTF8.GetString(message.Content)
             };
+            TextBlock date = new TextBlock()
+            {
+                Tag = message.ID,
+                Text = message.Date.ToString()
+            };
             stackPanel.Children.Add(user);
             stackPanel.Children.Add(text);
+            stackPanel.Children.Add(date);
             return stackPanel;
         }
         private StackPanel CreateAudioMessageUI(Message message)
         {
-            StackPanel stackPanel = new StackPanel()
-            {
-                Orientation = Orientation.Horizontal
-            };
+            StackPanel stackPanel = new StackPanel();
             TextBlock user = new TextBlock()
             {
-                Text = message.User_id.ToString(),
+                Text = message.User_login,
+                FontWeight = FontWeights.Bold,
                 Tag = message.User_id
             };
             Button button = new Button()
@@ -141,7 +167,33 @@ namespace Sky
             //stackPanel.Children.Add(slider);
             return stackPanel;
         }
-
+        private StackPanel CreatePhotoMessageUI(Message message)
+        {
+            StackPanel stackPanel = new StackPanel();
+            TextBlock user = new TextBlock()
+            {
+                Text = message.User_login,
+                FontWeight = FontWeights.Bold,
+                Tag = message.User_id
+            };
+            BitmapImage bi = new BitmapImage();
+            bi.BeginInit();
+            bi.StreamSource = new MemoryStream(message.Content);
+            bi.EndInit();
+            Image image = new Image()
+            {
+                Source = bi,
+                Height = 250
+            };
+            stackPanel.Children.Add(user);
+            stackPanel.Children.Add(image);
+            return stackPanel;
+        }
+        private StackPanel CreateVideoMessageUI()
+        {
+            StackPanel stackPanel = new StackPanel();
+            return stackPanel;
+        }
         private void PlayAudioMessage_Click(object sender, RoutedEventArgs e)
         {
             foreach (Message message in messages)
