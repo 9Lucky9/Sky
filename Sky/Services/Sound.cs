@@ -37,7 +37,7 @@ namespace Sky.Services
         private void waveIn_DataAvailable(object sender, WaveInEventArgs e)
         {
             audioBytes.AddRange(e.Buffer);
-            writer.Write(e.Buffer, 0, e.BytesRecorded);
+            //writer.Write(e.Buffer, 0, e.BytesRecorded);
         }
         private void waveIn_RecordingStopped(object sender, EventArgs e)
         {

@@ -26,6 +26,7 @@ namespace Sky.Models
             ContentType = contentType;
             Content = content;
             Date = DateTime.Now;
+            User_login = User.CurrentUser.Login;
             Insert();
         }
         /// <summary>
@@ -57,18 +58,6 @@ namespace Sky.Models
                 command.Parameters.Add(new SqlParameter("@ContentType", ContentType));
                 command.Parameters.Add(new SqlParameter("@content", binaryContent));
                 command.Parameters.Add(new SqlParameter("@date", Date));
-                command.ExecuteNonQuery();
-            }
-        }
-        private void Delete()
-        {
-            using (SqlConnection Connection = new SqlConnection(Properties.Settings.Default.SkyDatabaseConnectionString))
-            {
-                Connection.Open();
-                SqlCommand command = new SqlCommand();
-                command.Connection = Connection;
-                command.CommandText = "DELETE FROM [Message] WHERE [Id] = @Id";
-                command.Parameters.Add(new SqlParameter("@Id", ID));
                 command.ExecuteNonQuery();
             }
         }

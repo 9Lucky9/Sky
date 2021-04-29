@@ -11,7 +11,7 @@ namespace Sky
     public class SignalRService
     {
         private HubConnection hub = new HubConnectionBuilder()
-            .WithUrl("http://localhost:5000/Chat")
+            .WithUrl("https://localhost:5001/Chat")
             .Build();
         public event Action<Message> MessageReceived;
         public async Task StartConnection()

@@ -13,7 +13,6 @@ namespace Sky
         public string Email
         {
             get => email;
-
             set
             {
                 email = value;

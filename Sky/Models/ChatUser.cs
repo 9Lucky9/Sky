@@ -55,6 +55,19 @@ namespace Sky.Models
                 command.ExecuteNonQuery();
             }
         }
+        public static void Delete(int chatID, int chatUser)
+        {
+            using (SqlConnection Connection = new SqlConnection(Properties.Settings.Default.SkyDatabaseConnectionString))
+            {
+                Connection.Open();
+                SqlCommand command = new SqlCommand();
+                command.Connection = Connection;
+                command.CommandText = "DELETE FROM [ChatUser] WHERE [user_id] = @user_id AND [chat_id] = @chat_id";
+                command.Parameters.Add(new SqlParameter("@user_id", chatID));
+                command.Parameters.Add(new SqlParameter("@chat_id", chatUser));
+                command.ExecuteNonQuery();
+            }
+        }
         private static ObservableCollection<ChatUser> GetChatsByUser(int User_id)
         {
             ObservableCollection<ChatUser> chatUsers = new ObservableCollection<ChatUser>();

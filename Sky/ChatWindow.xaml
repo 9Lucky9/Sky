@@ -18,13 +18,25 @@
         <!--Информация о чате-->
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="0.9*"/>
+                <ColumnDefinition Width="0.05*"/>
             </Grid.ColumnDefinitions>
+            
+            <!--Название чата-->
             <Viewbox>
-                <TextBlock Text="Название чата" x:Name="ChatName"/>
+                <TextBlock Text="Название чата" x:Name="ChatName" PreviewMouseDown="ChatName_Click" />
             </Viewbox>
-            <Button Grid.Column="1" Content="Настройки" HorizontalAlignment="Right"/>
+            
+            <!--Настройки-->
+            <Button Grid.Column="1" Click="ChatSettings_Click" Background="{x:Null}">
+                <Image Source="/Resources/ChatWindow/TransparentSettings.png"/>
+                <Button.ContextMenu>
+                    <ContextMenu Name="SettingsMenu">
+                        <MenuItem Header="Выйти из чата">
+                        </MenuItem>
+                    </ContextMenu>   
+                </Button.ContextMenu>
+            </Button>
         </Grid>
 
         <!--Сообщения-->
@@ -42,10 +54,13 @@
             </Grid.ColumnDefinitions>
 
             <TextBox x:Name="messageBox"/>
+            
+            <!--Прикрепить файл-->
             <Button x:Name="Attach" FontSize="32" Grid.Column="1" Click="AttachFile_Click">
                 <Image Source="/Resources/ChatWindow/TransparentClip.png"/>
             </Button>
-
+            
+            <!--Отправить текстовое сообщение-->
             <Button Grid.Column="2" Click="AuidoMessage_Click">
                 <Image Source="/Resources/ChatWindow/TransparentMicrophone.png"/>
             </Button>

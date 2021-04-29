@@ -1,24 +1,14 @@
-﻿using Microsoft.AspNetCore.SignalR.Client;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using Sky.Models;
 using Sky.Services;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Sky
 {
@@ -34,9 +24,9 @@ namespace Sky
         {
             InitializeComponent();
             chatID = chatUser.chat_id;
-            
+            ChatName.Text = chatUser.chatName;
             messages = Message.GetMessagesFromDB(chatID);
-            //loadRService();
+            loadRService();
             LoadMessages();
         }
 
@@ -47,7 +37,7 @@ namespace Sky
             byte[] array = Encoding.UTF8.GetBytes(messageBox.Text);
             Message message = new Message(User.CurrentUser.ID, chatID, (int)ContentType.ContentTypes.Text, array);
             Messages.Items.Add(CreateTextMessageUI(message));
-            //await rService.SendMessage(message);
+            await rService.SendMessage(message);
         }
         private async void loadRService()
         {
@@ -58,7 +48,7 @@ namespace Sky
         }
         private void RService_MessageReceived(Message obj)
         {
-            messages.Add(obj);
+            Messages.Items.Add(CreateTextMessageUI(obj));
         }
         private void LoadMessages()
         {
@@ -91,7 +81,6 @@ namespace Sky
             FileInfo fileInfo = new FileInfo(filename);
             if (fileInfo.Extension == ".jpg" || fileInfo.Extension == ".jpeg" || fileInfo.Extension == ".png")
             {
-                Console.WriteLine("Сработал!");
                 Message message = new Message(User.CurrentUser.ID, chatID, (int)ContentType.ContentTypes.Picture, File.ReadAllBytes(filename));
                 Messages.Items.Add(CreatePhotoMessageUI(message));
             }
@@ -167,6 +156,17 @@ namespace Sky
             //stackPanel.Children.Add(slider);
             return stackPanel;
         }
+        private void PlayAudioMessage_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (Message message in messages)
+            {
+                if (message.ID == Convert.ToInt32((sender as Button).Tag))
+                {
+                    Sound.PlayAudio(message.Content);
+                    break;
+                }
+            }
+        }
         private StackPanel CreatePhotoMessageUI(Message message)
         {
             StackPanel stackPanel = new StackPanel();
@@ -185,25 +185,40 @@ namespace Sky
                 Source = bi,
                 Height = 250
             };
+            image.PreviewMouseLeftButtonDown += Image_PreviewMouseLeftButtonDown;
+            TextBlock date = new TextBlock()
+            {
+                Tag = message.ID,
+                Text = message.Date.ToString()
+            };
             stackPanel.Children.Add(user);
             stackPanel.Children.Add(image);
+            stackPanel.Children.Add(date);
             return stackPanel;
         }
+
+        private void Image_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            new ShowImage(sender as  Image).Show();
+        }
+
         private StackPanel CreateVideoMessageUI()
         {
             StackPanel stackPanel = new StackPanel();
             return stackPanel;
         }
-        private void PlayAudioMessage_Click(object sender, RoutedEventArgs e)
+
+        private void ChatName_Click(object sender, MouseButtonEventArgs e)
         {
-            foreach (Message message in messages)
-            {
-                if (message.ID == Convert.ToInt32((sender as Button).Tag))
-                {
-                    Sound.PlayAudio(message.Content);
-                    break;
-                }
-            }
+
+        }
+        private void ChatSettings_Click(object sender, RoutedEventArgs e)
+        {
+            SettingsMenu.IsOpen = true;
+        }
+        private void ExitChat_Click(object sender, RoutedEventArgs e)
+        {
+            ChatUser.Delete(chatID, User.CurrentUser.ID);
         }
     }
 }
