@@ -253,7 +253,7 @@
     <Compile Include="ShowImage.xaml.cs">
       <DependentUpon>ShowImage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SignalRService.cs" />
+    <Compile Include="Services\SignalRService.cs" />
     <Compile Include="SkyDatabaseDataSet.cs">
       <DependentUpon>SkyDatabaseDataSet.xsd</DependentUpon>
     </Compile>

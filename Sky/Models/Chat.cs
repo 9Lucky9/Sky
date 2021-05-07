@@ -1,24 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using System.Data.SqlClient;
 namespace Sky
 {
     class Chat
     {
         public int ID;
-        private string name;
-        public string Name { get => name; set => name = value; }
+        public string Name { get; set; }
         public Chat() { }
+        /// <summary>
+        /// Insert new chat to database
+        /// </summary>
         public Chat(string Name)
         {
             ID = GetLastChatID() + 1;
             this.Name = Name;
             Insert();
         }
+        /// <summary>
+        /// Load chat from database
+        /// </summary>
         public Chat(int ID, string Name)
         {
             this.ID = ID;

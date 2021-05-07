@@ -1,19 +1,9 @@
 ﻿using Sky.Models;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Sky
 {
@@ -21,6 +11,7 @@ namespace Sky
     {
         private ObservableCollection<ChatUser> ChatUsers = new ObservableCollection<ChatUser>();
         private ObservableCollection<User> Users = new ObservableCollection<User>();
+
         public NewChat()
         {
             InitializeComponent();
@@ -45,7 +36,7 @@ namespace Sky
             ChatUsers.Add(currentChatUser);
             foreach (ChatUser chatUser in ChatUsers)
             {
-                chatUser.chat_id = chat.ID;
+                chatUser.Chat_id = chat.ID;
                 chatUser.Insert();
             }
             MessageBox.Show("Новый чат успешно создан!");
@@ -54,7 +45,7 @@ namespace Sky
 
         private void CancelNewChatClick(object sender, RoutedEventArgs e)
         {
-
+            ((Grid)Parent).Children.Remove(this);
         }
 
         private void AddUserToChatListClick(object sender, RoutedEventArgs e)
@@ -77,7 +68,7 @@ namespace Sky
             }
             foreach (ChatUser chatUser1 in ChatUsers)
             {
-                if (chatUser1.user_id == user.ID)
+                if (chatUser1.User_id == user.ID)
                 {
                     MessageBox.Show("Вы не можете добавить одинаковых пользователей в чат!");
                     return;
@@ -90,7 +81,7 @@ namespace Sky
         private void DeleteUserFromChatListClick(object sender, RoutedEventArgs e)
         {
             var user1 = Users.First(user => user.ID == Convert.ToInt32((sender as Button).Tag));
-            var chatUser = ChatUsers.First(chatUser1 => chatUser1.user_id == Convert.ToInt32((sender as Button).Tag));
+            var chatUser = ChatUsers.First(chatUser1 => chatUser1.User_id == Convert.ToInt32((sender as Button).Tag));
             Users.Remove(user1);
             ChatUsers.Remove(chatUser);
         }

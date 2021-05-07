@@ -25,8 +25,8 @@
             </ListBox>
         </StackPanel>
 
-        <Frame NavigationUIVisibility="Hidden" Grid.Column="1" x:Name="ChatFrame">
-
-        </Frame>
+        <Grid Grid.Column="1" x:Name="Frame">
+            
+        </Grid>
     </Grid>
 </Window>

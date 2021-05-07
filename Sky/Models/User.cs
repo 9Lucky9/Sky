@@ -1,5 +1,4 @@
 ﻿using System.Data.SqlClient;
-using System.Windows;
 
 namespace Sky
 {
@@ -8,24 +7,12 @@ namespace Sky
         public static User CurrentUser { get; set; }
         public int ID { get; set; }
         public string Login { get; set; }
-
-        private string email;
-        public string Email
-        {
-            get => email;
-            set
-            {
-                email = value;
-            }
-        }
-
-        private string password;
-        public string Password
-        {
-            get => password;
-            set => password = value;
-        }
+        public string Email { get; set; }
+        public string Password { get; set; }
         public User() { }
+        /// <summary>
+        /// Load user from database
+        /// </summary>
         public User(int ID, string Login, string Email, string Password)
         {
             this.ID = ID;
@@ -33,14 +20,18 @@ namespace Sky
             this.Email = Email;
             this.Password = Password;
         }
+        /// <summary>
+        /// Insert new user to database
+        /// </summary>
         public User(string Login, string Email, string Password)
         {
             this.Login = Login;
             this.Email = Email;
             this.Password = Password;
+            Insert();
         }
 
-        public void Insert()
+        private void Insert()
         {
             using (SqlConnection Connection = new SqlConnection(Properties.Settings.Default.SkyDatabaseConnectionString))
             {

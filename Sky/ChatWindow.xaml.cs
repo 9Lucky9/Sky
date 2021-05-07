@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 
 namespace Sky
 {
-    public partial class ChatWindow : Page
+    public partial class ChatWindow : UserControl
     {
         private int chatID;
         private ObservableCollection<Message> messages;
@@ -23,11 +23,22 @@ namespace Sky
         public ChatWindow(ChatUser chatUser)
         {
             InitializeComponent();
-            chatID = chatUser.chat_id;
-            ChatName.Text = chatUser.chatName;
+            chatID = chatUser.Chat_id;
+            ChatName.Text = chatUser.ChatName;
             messages = Message.GetMessagesFromDB(chatID);
-            loadRService();
+            //loadRService();
             LoadMessages();
+        }
+        private async void loadRService()
+        {
+            rService = new SignalRService();
+            rService.MessageReceived += RService_MessageReceived;
+            await rService.StartConnection();
+            await rService.AddToGroup(chatID.ToString());
+        }
+        private void RService_MessageReceived(Message obj)
+        {
+            Messages.Items.Add(CreateTextMessageUI(obj));
         }
 
         private async void SendMessage_Click(object sender, RoutedEventArgs e)
@@ -39,17 +50,7 @@ namespace Sky
             Messages.Items.Add(CreateTextMessageUI(message));
             await rService.SendMessage(message);
         }
-        private async void loadRService()
-        {
-            rService = new SignalRService();
-            rService.MessageReceived += RService_MessageReceived;
-            await rService.StartConnection();
-            await rService.addToGroup(chatID.ToString());
-        }
-        private void RService_MessageReceived(Message obj)
-        {
-            Messages.Items.Add(CreateTextMessageUI(obj));
-        }
+
         private void LoadMessages()
         {
             foreach (Message message in messages)
@@ -218,7 +219,8 @@ namespace Sky
         }
         private void ExitChat_Click(object sender, RoutedEventArgs e)
         {
-            ChatUser.Delete(chatID, User.CurrentUser.ID);
+            ((Grid)Parent).Children.Remove(this);
+            //ChatUser.Delete(chatID, User.CurrentUser.ID);
         }
     }
 }

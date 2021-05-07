@@ -1,41 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sky.Models
 {
     public class ChatUser
     {
         public int ID { get; set; }
-        public int user_id { get; set; }
-        public int role_id { get; set; }
-        public int chat_id { get; set; }
-        public string chatName { get; set; }
+        public int User_id { get; set; }
+        public int Role_id { get; set; }
+        public int Chat_id { get; set; }
+        public string ChatName { get; set; }
 
         public ChatUser() { }
         /// <summary>
-        /// Constuctor to insert ChatUser to database
+        /// Insert ChatUser to database
         /// </summary>
         public ChatUser(int user_id, int role_id, int chat_id)
         {
-            this.user_id = user_id;
-            this.role_id = role_id;
-            this.chat_id = chat_id;
+            User_id = user_id;
+            Role_id = role_id;
+            Chat_id = chat_id;
         }
         /// <summary>
-        /// Constuctor for load ChatUser from database
+        /// Load ChatUser from database
         /// </summary>
         public ChatUser(int ID, int user_id, int role_id, int chat_id, string chatName)
         {
             this.ID = ID;
-            this.user_id = user_id;
-            this.role_id = role_id;
-            this.chat_id = chat_id;
-            this.chatName = chatName;
+            User_id = user_id;
+            Role_id = role_id;
+            Chat_id = chat_id;
+            ChatName = chatName;
         }
         private static ObservableCollection<ChatUser> chatUsers = GetChatsByUser(User.CurrentUser.ID);
         public static ObservableCollection<ChatUser> ChatUsers { get => chatUsers; set => chatUsers = value; }
@@ -49,9 +44,9 @@ namespace Sky.Models
                     Connection = Connection
                 };
                 command.CommandText = "INSERT INTO [ChatUser] VALUES(@user_id, @role_id, @chat_id)";
-                command.Parameters.Add(new SqlParameter("@user_id", user_id));
-                command.Parameters.Add(new SqlParameter("@role_id", role_id));
-                command.Parameters.Add(new SqlParameter("@chat_id", chat_id));
+                command.Parameters.Add(new SqlParameter("@user_id", User_id));
+                command.Parameters.Add(new SqlParameter("@role_id", Role_id));
+                command.Parameters.Add(new SqlParameter("@chat_id", Chat_id));
                 command.ExecuteNonQuery();
             }
         }

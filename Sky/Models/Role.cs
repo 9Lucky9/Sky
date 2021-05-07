@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sky.Models
 {
@@ -18,6 +13,7 @@ namespace Sky.Models
             this.ID = ID;
             this.Name = Name;
         }
+        
         private static List<Role> roles = GetRoles();
         public static List<Role> Roles { get => roles; set => roles = value; }
 

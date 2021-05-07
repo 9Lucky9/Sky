@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
 using Sky.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Sky
@@ -19,7 +16,7 @@ namespace Sky
             await hub.StartAsync();
             hub.On<Message>("ReceiveMessage", (message) => MessageReceived.Invoke(message));
         }
-        public async Task addToGroup(string chatId)
+        public async Task AddToGroup(string chatId)
         {
             await hub.InvokeAsync<string>("JoinChatGroup", chatId);
         }

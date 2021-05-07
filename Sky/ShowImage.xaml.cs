@@ -10,9 +10,6 @@ namespace Sky
     /// </summary>
     public partial class ShowImage : Window
     {
-        double Scale = 1.0;
-        double MinScale = 0.5;
-        double aMxScale = 2.0;
         public ShowImage(Image image)
         {
             InitializeComponent();
@@ -27,7 +24,7 @@ namespace Sky
             var position = e.GetPosition(element);
             var transform = element.RenderTransform as MatrixTransform;
             var matrix = transform.Matrix;
-            var scale = e.Delta >= 0 ? 1.1 : (1.0 / 1.1); // choose appropriate scaling factor
+            var scale = e.Delta >= 0 ? 1.1 : (1.0 / 1.1);
 
             matrix.ScaleAtPrepend(scale, scale, position.X, position.Y);
             element.RenderTransform = new MatrixTransform(matrix);

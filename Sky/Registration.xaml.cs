@@ -1,16 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+﻿using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Sky
 {
@@ -39,8 +28,8 @@ namespace Sky
                 MessageBox.Show("Не верный E-mail");
                 return;
             }
-            User user = new User(Login.Text, Email.Text, Password.Password);
-            user.Insert();
+
+            new User(Login.Text, Email.Text, Password.Password);
         }
     }
 }

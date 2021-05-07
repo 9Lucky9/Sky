@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Data.SqlClient;
-using System.Windows;
 
 namespace Sky.Models
 {
     public class Message
     {
-        public Message() { }
         public int ID { get; set; }
         public int User_id { get; set; }
         public int Chat_id { get; set; }
@@ -16,8 +14,9 @@ namespace Sky.Models
         public DateTime Date { get; set; }
         public string User_login { get; set; }
 
+        public Message() { }
         /// <summary>
-        /// Create and insert new message to database
+        /// Insert new message to database
         /// </summary>
         public Message(int user_id, int chat_id, int contentType, byte[] content)
         {
