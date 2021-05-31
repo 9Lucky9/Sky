@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Sky"
         mc:Ignorable="d"
-        Title="Чаты" Height="450" Width="800">
+        Title="Чаты" Height="450" Width="800"
+        x:Name="ChatsWindow">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.3*"/>
@@ -16,17 +17,19 @@
         </Grid.RowDefinitions>
         <StackPanel>
             <Button Content="Добавить новый чат" Click="NewChat"/>
-            <ListBox x:Name="ChatList">
+            <ListBox x:Name="ChatList" ItemsSource="{Binding  ElementName=ChatsWindow}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Path=chatName}" PreviewMouseLeftButtonUp="Chat_LeftClick"/>
+                        <StackPanel PreviewMouseLeftButtonUp="Chat_LeftClick">
+                            <TextBlock Text="{Binding Path=ChatName}"/>
+                        </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
         </StackPanel>
 
         <Grid Grid.Column="1" x:Name="Frame">
-            
+
         </Grid>
     </Grid>
 </Window>

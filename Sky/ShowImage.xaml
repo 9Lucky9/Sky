@@ -5,12 +5,33 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Sky"
         mc:Ignorable="d"
-        Title="ShowImage" Height="450" Width="800">
+        Title="ShowImage" Height="450" Width="800"
+        Name="ShowImageWindow">
     <Grid PreviewMouseWheel="Grid_PreviewMouseWheel">
-        <Image x:Name="Image">
-            <Image.LayoutTransform>
-                <ScaleTransform x:Name="scale"/>
-            </Image.LayoutTransform>
-        </Image>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.95*"/>
+            <RowDefinition Height="0.05*"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer x:Name="ScrollView">
+            <Image x:Name="Image">
+                <Image.LayoutTransform>
+                    <ScaleTransform x:Name="scale"/>
+                </Image.LayoutTransform>
+            </Image>
+        </ScrollViewer>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <RadioButton x:Name="Zoom" IsChecked="{Binding ZoomModeEnabled, ElementName=ShowImageWindow}">
+                <RadioButton.Content>
+                    <TextBlock Text="Приближение"/>
+                </RadioButton.Content>
+            </RadioButton>
+            <RadioButton IsChecked="True">
+                <RadioButton.Content>
+                    <TextBlock Text="Пролистывание"/>
+                </RadioButton.Content>
+            </RadioButton>
+        </StackPanel>
+
     </Grid>
 </Window>

@@ -29,7 +29,7 @@ namespace Sky.Models
             Insert();
         }
         /// <summary>
-        /// Constuctor for load messages from database
+        /// Load messages from database
         /// </summary>
         public Message(int iD, int user_id, int chat_id, int contentType, byte[] content, DateTime date, string user_login)
         {

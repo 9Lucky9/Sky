@@ -26,7 +26,7 @@ namespace Sky
             chatID = chatUser.Chat_id;
             ChatName.Text = chatUser.ChatName;
             messages = Message.GetMessagesFromDB(chatID);
-            //loadRService();
+            loadRService();
             LoadMessages();
         }
         private async void loadRService()
@@ -38,7 +38,21 @@ namespace Sky
         }
         private void RService_MessageReceived(Message obj)
         {
-            Messages.Items.Add(CreateTextMessageUI(obj));
+            switch (obj.ContentType)
+            {
+                case (int)ContentType.ContentTypes.Text:
+                    Messages.Items.Add(CreateTextMessageUI(obj));
+                    break;
+                case (int)ContentType.ContentTypes.VoiceMessage:
+                    Messages.Items.Add(CreateAudioMessageUI(obj));
+                    break;
+                case (int)ContentType.ContentTypes.Picture:
+                    Messages.Items.Add(CreatePhotoMessageUI(obj));
+                    break;
+                case (int)ContentType.ContentTypes.Video:
+
+                    break;
+            }
         }
 
         private async void SendMessage_Click(object sender, RoutedEventArgs e)
@@ -47,7 +61,6 @@ namespace Sky
                 return;
             byte[] array = Encoding.UTF8.GetBytes(messageBox.Text);
             Message message = new Message(User.CurrentUser.ID, chatID, (int)ContentType.ContentTypes.Text, array);
-            Messages.Items.Add(CreateTextMessageUI(message));
             await rService.SendMessage(message);
         }
 
@@ -73,7 +86,7 @@ namespace Sky
             }
         }
 
-        private void AttachFile_Click(object sender, RoutedEventArgs e)
+        private async void AttachFile_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == false)
@@ -83,7 +96,7 @@ namespace Sky
             if (fileInfo.Extension == ".jpg" || fileInfo.Extension == ".jpeg" || fileInfo.Extension == ".png")
             {
                 Message message = new Message(User.CurrentUser.ID, chatID, (int)ContentType.ContentTypes.Picture, File.ReadAllBytes(filename));
-                Messages.Items.Add(CreatePhotoMessageUI(message));
+                await rService.SendMessage(message);
             }
             if(fileInfo.Extension == ".mp4")
             {
@@ -103,8 +116,8 @@ namespace Sky
             {
                 sound.StopRecord();
                 Message message = new Message(User.CurrentUser.ID, chatID, (int)ContentType.ContentTypes.VoiceMessage, sound.audioBytes.ToArray());
-                messages.Add(message);
-                //await rService.SendMessage(message);
+                Messages.Items.Add(CreateAudioMessageUI(message));
+                await rService.SendMessage(message);
                 recordingSound = false;
             }
         }
@@ -150,11 +163,15 @@ namespace Sky
                     Source = new BitmapImage(new Uri("Resources/ChatWindow/TransparentPlay.png", UriKind.Relative))
                 }
             };
+            TextBlock date = new TextBlock()
+            {
+                Tag = message.ID,
+                Text = message.Date.ToString()
+            };
             button.Click += PlayAudioMessage_Click;
-            //Slider slider = new Slider();
             stackPanel.Children.Add(user);
             stackPanel.Children.Add(button);
-            //stackPanel.Children.Add(slider);
+            stackPanel.Children.Add(date);
             return stackPanel;
         }
         private void PlayAudioMessage_Click(object sender, RoutedEventArgs e)
@@ -211,7 +228,7 @@ namespace Sky
 
         private void ChatName_Click(object sender, MouseButtonEventArgs e)
         {
-
+            new ChatUsers(chatID).Show();
         }
         private void ChatSettings_Click(object sender, RoutedEventArgs e)
         {
@@ -220,7 +237,7 @@ namespace Sky
         private void ExitChat_Click(object sender, RoutedEventArgs e)
         {
             ((Grid)Parent).Children.Remove(this);
-            //ChatUser.Delete(chatID, User.CurrentUser.ID);
+            ChatUser.Delete(chatID, User.CurrentUser.ID);
         }
     }
 }

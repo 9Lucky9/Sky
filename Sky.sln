@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.31019.35
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sky", "Sky\Sky.csproj", "{C972FED7-04AE-44DD-B166-95397B529B19}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sky.SignalR", "Sky.SignalR\Sky.SignalR.csproj", "{3DB71B15-BC35-4992-BE98-1FD5EC88B71C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sky.SignalR", "Sky.SignalR\Sky.SignalR.csproj", "{3DB71B15-BC35-4992-BE98-1FD5EC88B71C}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SkySetup", "SkySetup\SkySetup.vdproj", "{311A61C7-C865-46F4-8CFC-39B541A5BB4B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,8 @@ Global
 		{3DB71B15-BC35-4992-BE98-1FD5EC88B71C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3DB71B15-BC35-4992-BE98-1FD5EC88B71C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3DB71B15-BC35-4992-BE98-1FD5EC88B71C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{311A61C7-C865-46F4-8CFC-39B541A5BB4B}.Debug|Any CPU.ActiveCfg = Debug
+		{311A61C7-C865-46F4-8CFC-39B541A5BB4B}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

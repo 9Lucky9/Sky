@@ -4,6 +4,16 @@
              xmlns:local="clr-namespace:Sky"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <Style x:Key="Main" TargetType="Window">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                        <GradientStop Color="Black" Offset="1"/>
+                        <GradientStop Color="#FF65DCFF" Offset="0.815"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="TextElement.Foreground" Value="White"/>
+        </Style>
     </Application.Resources>
 </Application>

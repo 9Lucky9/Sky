@@ -34,6 +34,7 @@ namespace Sky
             Chat chat = new Chat(ChatName.Text);
             ChatUser currentChatUser = new ChatUser(User.CurrentUser.ID, 1, chat.ID);
             ChatUsers.Add(currentChatUser);
+            ChatUser.ChatUsers.Add(currentChatUser);
             foreach (ChatUser chatUser in ChatUsers)
             {
                 chatUser.Chat_id = chat.ID;
@@ -41,6 +42,7 @@ namespace Sky
             }
             MessageBox.Show("Новый чат успешно создан!");
             Properties.Settings.Default.Save();
+            ((Grid)Parent).Children.Remove(this);
         }
 
         private void CancelNewChatClick(object sender, RoutedEventArgs e)
@@ -64,6 +66,11 @@ namespace Sky
             if (user.ID == 0)
             {
                 MessageBox.Show("Такого пользователя не существует!");
+                return;
+            }
+            if(Roles.SelectedItem == null)
+            {
+                MessageBox.Show("Выберите роль участника!");
                 return;
             }
             foreach (ChatUser chatUser1 in ChatUsers)

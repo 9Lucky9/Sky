@@ -5,13 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Sky"
         mc:Ignorable="d"
-        Title="Авторизация - Sky" Height="450" Width="800">
-    <Window.Background>
-        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-            <GradientStop Color="Black" Offset="1"/>
-            <GradientStop Color="#FF65DCFF" Offset="0.815"/>
-        </LinearGradientBrush>
-    </Window.Background>
+        Title="Авторизация - Sky" Height="450" Width="800"
+        Style="{StaticResource Main}">
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.2*"/>
@@ -21,7 +17,7 @@
         <!--Заголовок-->
         <Viewbox >
             <StackPanel>
-                <TextBlock Text="Sky" Foreground="White"/>
+                <TextBlock Text="Sky"/>
             </StackPanel>
         </Viewbox>
         <!--Форма заполнения-->
@@ -40,33 +36,32 @@
             </Grid.ColumnDefinitions>
             <!--Заголовок формы-->
             <Viewbox Grid.Column="1">
-                <TextBlock x:Name="Title" Text="Авторизация" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" />
+                <TextBlock x:Name="Title" Text="Авторизация" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Viewbox>
             <!--Заголовок Email-->
             <Viewbox  Grid.Row="1" HorizontalAlignment="Right">
-                <TextBlock Text="Email:" Foreground="White"/>
+                <TextBlock Text="Email:"/>
             </Viewbox>
             <!--Email-->
             <Viewbox Grid.Column="1" Grid.Row="1" Margin="0,5">
-                <TextBox x:Name="Email" Text="pro1912@gmail.com" MinWidth="{Binding ElementName=Title, Path=ActualWidth}"/>
+                <TextBox x:Name="Email" Text="pro1912@gmail.com" MinWidth="{Binding ElementName=Title, Path=ActualWidth}" Width="114"/>
             </Viewbox>
             <!--Заголовок пароля-->
             <Viewbox  Grid.Row="2" HorizontalAlignment="Right">
-                <TextBlock Text="Пароль:" Foreground="White"/>
+                <TextBlock Text="Пароль:"/>
             </Viewbox>
             <!--Password-->
             <Viewbox Grid.Column="1" Grid.Row="2" Margin="0,5">
-                <PasswordBox x:Name="Password" MinWidth="{Binding ElementName=Title, Path=ActualWidth}"/>
+                <PasswordBox Password="1234" x:Name="Password" MinWidth="{Binding ElementName=Title, Path=ActualWidth}" Width="117"/>
             </Viewbox>
-            <!--Кнопка и чекбокс авторизации-->
+            <!--Кнопка-->
             <Viewbox Grid.Column="1" Grid.Row="3">
                 <DockPanel>
-                    <CheckBox VerticalAlignment="Center"/>
-                    <TextBlock Text="Запомнить меня" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
+
                     <Button Content="Войти" VerticalAlignment="Center" Click="SignInClick"/>
                 </DockPanel>
             </Viewbox>
-            <!--Зарегестироваться-->
+            <!--Зарегестрироваться-->
             <Viewbox Grid.Column="1" Grid.Row="4">
                 <TextBlock Text="Зарегестироваться" PreviewMouseDown="RegistrationClick" Foreground="#FF0000EE"/>
             </Viewbox>
